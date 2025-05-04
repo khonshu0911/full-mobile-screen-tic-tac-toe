@@ -130,6 +130,19 @@
       color: #c2185b;
       animation: fadeInOut 2s ease-in-out;
     }
+    #footer {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+      color: #c2185b;
+      font-family: 'Comic Sans MS', sans-serif;
+      display: none;
+    }
+    #footer.default-theme {
+      display: block;
+    }
     @keyframes fadeInOut {
       0%   { opacity: 0; transform: scale(0.7) translate(-50%,-50%); }
       20%  { opacity: 1; transform: scale(1.05) translate(-50%,-50%); }
@@ -184,6 +197,10 @@
         padding: 6px;
         font-size: 12px;
       }
+      #footer {
+        font-size: 12px;
+        bottom: 5px;
+      }
     }
     @media (max-width: 400px) {
       #board {
@@ -227,6 +244,7 @@
     </div>
     <div id="popup"></div>
   </div>
+  <div id="footer">Made with love by Sunflower</div>
   <script>
     const gameTitleText = " Prove Your Luv";
     const playerSymbols = {
@@ -411,6 +429,8 @@
         cell.style.background = theme.cellBackground;
         cell.style.borderColor = theme.cellBorder;
       });
+      const footer = document.getElementById('footer');
+      footer.classList.toggle('default-theme', themeName === 'default');
     }
     const bgImage = new Image();
     bgImage.src = 'https://res.cloudinary.com/damhnrsar/image/upload/v1746110462/20250501_200854_aokqh5.jpg';
