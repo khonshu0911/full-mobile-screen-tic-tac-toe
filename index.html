@@ -9,11 +9,7 @@
     body {
       font-family: 'Comic Sans MS', sans-serif;
       text-align: center;
-      background-image: url('https://res.cloudinary.com/damhnrsar/image/upload/v1746110462/20250501_200854_aokqh5.jpg'); /* Updated to your provided URL */
-      background-size: contain;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
+      background: linear-gradient(135deg, #ff99cc, #fff0f5); /* Default pinkish gradient */
       color: #800040;
       height: 100vh;
       display: flex;
@@ -34,6 +30,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      position: relative; /* For absolute positioning of theme select */
     }
     #startScreen { display: flex; }
 
@@ -56,7 +53,16 @@
     }
 
     select#themeSelect {
-      display: none;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 8px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 2px solid #ff66b2;
+      background-color: #fff0f5;
+      color: #c2185b;
+      cursor: pointer;
     }
 
     #gameTitle {
@@ -185,6 +191,12 @@
       #controls {
         margin-top: 20px;
       }
+      select#themeSelect {
+        top: 10px;
+        right: 10px;
+        padding: 6px;
+        font-size: 12px;
+      }
     }
 
     @media (max-width: 400px) {
@@ -213,7 +225,7 @@
     </div>
     <select id="themeSelect" onchange="setTheme(this.value)">
       <option value="default">Default Theme</option>
-      <option value="alternate">Alternate Theme</option>
+      <option value="prover">Prover Theme</option>
     </select>
   </div>
 
@@ -244,14 +256,14 @@
 
     const themes = {
       default: {
-        background: 'url(https://res.cloudinary.com/damhnrsar/image/upload/v1746110462/20250501_200854_aokqh5.jpg)', /* Updated to your provided URL */
+        background: 'linear-gradient(135deg, #ff99cc, #fff0f5)', // Pinkish gradient
         cellBackground: 'rgba(255,240,245,0.8)',
         cellBorder: '#ff99cc'
       },
-      alternate: {
-        background: 'url(https://via.placeholder.com/1920x1080?text=Alternate+Background)',
-        cellBackground: 'rgba(200,255,200,0.8)',
-        cellBorder: '#66cc66'
+      prover: {
+        background: 'url(https://res.cloudinary.com/damhnrsar/image/upload/v1746110462/20250501_200854_aokqh5.jpg)',
+        cellBackground: 'rgba(255,255,255,0.8)',
+        cellBorder: '#ff66b2'
       }
     };
 
@@ -423,18 +435,22 @@
     function setTheme(themeName) {
       const theme = themes[themeName];
       document.body.style.backgroundImage = theme.background;
-      document.body.classList.toggle("no-image", !theme.background.includes("url"));
-      document.querySelectorAll(".cell").forEach(cell => {
+      document.body.style.backgroundSize = theme.background.includes('url') ? 'contain' : 'auto';
+      document.body.style.backgroundPosition = theme.background.includes('url') ? 'center' : 'auto';
+      document.body.style.backgroundRepeat = theme.background.includes('url') ? 'no-repeat' : 'auto';
+      document.body.style.backgroundAttachment = theme.background.includes('url') ? 'fixed' : 'auto';
+      document.body.classList.toggle('no-image', !theme.background.includes('url'));
+      document.querySelectorAll('.cell').forEach(cell => {
         cell.style.background = theme.cellBackground;
         cell.style.borderColor = theme.cellBorder;
       });
     }
 
     const bgImage = new Image();
-    bgImage.src = 'https://res.cloudinary.com/damhnrsar/image/upload/v1746110462/20250501_200854_aokqh5.jpg'; /* Updated to your provided URL */
+    bgImage.src = 'https://res.cloudinary.com/damhnrsar/image/upload/v1746110462/20250501_200854_aokqh5.jpg';
     bgImage.onerror = () => {
       console.error('Background image failed to load. Using fallback gradient.');
-      document.body.classList.add("no-image");
+      document.body.classList.add('no-image');
     };
     bgImage.onload = () => {
       console.log('Background image loaded successfully.');
